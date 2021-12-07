@@ -48,6 +48,16 @@ function nimbus_register_meta_boxes( $meta_boxes ) {
                 'name' => esc_html__( 'Teléfono', 'nimbus' ),
                 'id'   => $prefix . 'fono',
             ],
+               [
+                'type' => 'text',
+                'name' => esc_html__( 'Facebook', 'nimbus' ),
+                'id'   => $prefix . 'facebook',
+            ],
+            [
+                'type' => 'text',
+                'name' => esc_html__( 'Instagram', 'nimbus' ),
+                'id'   => $prefix . 'instagram',
+            ],
             [
                 'type'    => 'fieldset_text',
                 'name'    => esc_html__( 'Info adicional', 'nimbus' ),
@@ -59,96 +69,22 @@ function nimbus_register_meta_boxes( $meta_boxes ) {
                     'linkinfo' => 'URL',
                 ],
             ],
-            [
-                'type' => 'divider',
-            ],
-            [
-                'type' => 'heading',
-                'name' => esc_html__( 'Obra 1', 'nimbus' ),
-            ],
-            [
-                'type' => 'file_input',
-                'name' => esc_html__( 'Imagen obra 1', 'nimbus' ),
-                'id'   => $prefix . 'imagen_obra_1',
-            ],
-            [
-                'type' => 'number',
-                'name' => esc_html__( 'Año obra 1', 'nimbus' ),
-                'id'   => $prefix . 'year_obra_1',
-                'step' => 1,
-            ],
-            [
-                'type' => 'divider',
-            ],
-            [
-                'type' => 'heading',
-                'name' => esc_html__( 'Obra 2', 'nimbus' ),
-            ],
-            [
-                'type' => 'file_input',
-                'name' => esc_html__( 'Imagen obra 2', 'nimbus' ),
-                'id'   => $prefix . 'imagen_obra_2',
-            ],
-            [
-                'type' => 'number',
-                'name' => esc_html__( 'Año obra 2', 'nimbus' ),
-                'id'   => $prefix . 'year_obra_2',
-                'step' => 1,
-            ],
-            [
-                'type' => 'divider',
-            ],
-            [
-                'type' => 'heading',
-                'name' => esc_html__( 'Obra 3', 'nimbus' ),
-            ],
-            [
-                'type' => 'file_input',
-                'name' => esc_html__( 'Imagen obra 3', 'nimbus' ),
-                'id'   => $prefix . 'imagen_obra_3',
-            ],
-            [
-                'type' => 'number',
-                'name' => esc_html__( 'Año obra 3', 'nimbus' ),
-                'id'   => $prefix . 'year_obra_3',
-                'step' => 1,
-            ],
-            [
-                'type' => 'divider',
-            ],
-            [
-                'type' => 'heading',
-                'name' => esc_html__( 'Obra 4', 'nimbus' ),
-            ],
              [
-                'type' => 'file_input',
-                'name' => esc_html__( 'Imagen obra 4', 'nimbus' ),
-                'id'   => $prefix . 'imagen_obra_4',
+                'type'    => 'fieldset_text',
+                'name'    => esc_html__( 'Web', 'nimbus' ),
+                'id'      => $prefix . 'web',
+                'desc'    => esc_html__( 'Webs del artista', 'nimbus' ),
+                'clone' => true,
+                'options' => [
+                    'linkinfo' => 'URL',
+                ],
             ],
             [
-                'type' => 'number',
-                'name' => esc_html__( 'Año obra 4', 'nimbus' ),
-                'id'   => $prefix . 'year_obra_4',
-                'step' => 1,
-            ],
-            [
-                'type' => 'divider',
-            ],
-            [
-                'type' => 'heading',
-                'name' => esc_html__( 'Obra 5', 'nimbus' ),
-            ],
-             [
-                'type' => 'file_input',
-                'name' => esc_html__( 'Imagen obra 5', 'nimbus' ),
-                'id'   => $prefix . 'imagen_obra_5',
-            ],
-            [
-                'type' => 'number',
-                'name' => esc_html__( 'Año obra 5', 'nimbus' ),
-                'id'   => $prefix . 'year_obra_5',
-                'step' => 1,
-            ],
+                'type'      => 'image_advanced',
+                'name'      => esc_html__('Obras', 'nimbus'),
+                'id'        => $prefix . 'obra',
+                'desc'      => esc_html__('Imagen e información de cada obra')
+            ]
         ],
     ];
 
