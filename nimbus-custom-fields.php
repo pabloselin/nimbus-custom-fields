@@ -60,6 +60,16 @@ function nimbus_register_meta_boxes( $meta_boxes ) {
             ],
             [
                 'type'    => 'fieldset_text',
+                'name'    => esc_html__( 'Web', 'nimbus' ),
+                'id'      => $prefix . 'web',
+                'desc'    => esc_html__( 'Webs del artista', 'nimbus' ),
+                'clone' => true,
+                'options' => [
+                    'linkinfo' => 'URL',
+                ],
+            ],
+            [
+                'type'    => 'fieldset_text',
                 'name'    => esc_html__( 'Info adicional', 'nimbus' ),
                 'id'      => $prefix . 'info_adicional',
                 'desc'    => esc_html__( 'Links - videos con texto explicativo', 'nimbus' ),
@@ -69,16 +79,7 @@ function nimbus_register_meta_boxes( $meta_boxes ) {
                     'linkinfo' => 'URL',
                 ],
             ],
-             [
-                'type'    => 'fieldset_text',
-                'name'    => esc_html__( 'Web', 'nimbus' ),
-                'id'      => $prefix . 'web',
-                'desc'    => esc_html__( 'Webs del artista', 'nimbus' ),
-                'clone' => true,
-                'options' => [
-                    'linkinfo' => 'URL',
-                ],
-            ],
+             
             [
                 'type'      => 'image_advanced',
                 'name'      => esc_html__('Obras', 'nimbus'),
