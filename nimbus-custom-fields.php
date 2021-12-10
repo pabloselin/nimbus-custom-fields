@@ -1,9 +1,4 @@
-<?php
-/**
- * Plugin Name:       Campos personalizados para Nimbus
- * Plugin URI:        https://apie.cl
- * Description:       Info de artista y otros campos.
- */
+<?php 
 
 add_filter( 'rwmb_meta_boxes', 'nimbus_register_meta_boxes' );
 
@@ -131,3 +126,4 @@ function nimbus_videos_register_meta_boxes( $meta_boxes ) {
 
     return $meta_boxes;
 }
+
