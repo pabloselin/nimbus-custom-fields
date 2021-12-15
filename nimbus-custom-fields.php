@@ -54,6 +54,11 @@ function nimbus_register_meta_boxes( $meta_boxes ) {
                 'id'   => $prefix . 'instagram',
             ],
             [
+                'type' => 'text',
+                'name' => esc_html__( 'Instagram (cuenta adicional)', 'nimbus' ),
+                'id'   => $prefix . 'instagram_b',
+            ],
+            [
                 'type'    => 'fieldset_text',
                 'name'    => esc_html__( 'Web', 'nimbus' ),
                 'id'      => $prefix . 'web',
