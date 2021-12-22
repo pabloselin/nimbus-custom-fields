@@ -49,12 +49,13 @@ function nimbus_populateartist($artistid, $slug) {
 						'phone'				=> get_post_meta($artistid, 'nimbusfono', true),
 						'facebook'			=> get_post_meta($artistid, 'nimbusfacebook', true),
 						'instagram'			=> get_post_meta($artistid, 'nimbusinstagram', true),
+						'instagram_b'		=> get_post_meta($artistid, 'nimbusinstagram_b', true),
 						'webs'				=> get_post_meta($artistid, 'nimbusweb', true),
 						'additionalinfo'	=> get_post_meta($artistid, 'nimbusinfo_adicional', true),
 						'works'				=> nimbus_artistworks($artistid),
 						'videos'			=> nimbus_videoartist($artistid),
-						'disciplines'		=> nimbus_get_plainterms_item($artistid, 'disciplina'),
-						'territories'		=> nimbus_get_plainterms_item($artistid, 'territorio')	
+						'disciplines'		=> nimbus_get_plainterms_structured($artistid, 'disciplina'),
+						'territories'		=> nimbus_get_plainterms_item($artistid, 'territorio')
 						);	
 
 		return $artistobj;			
@@ -81,7 +82,7 @@ function nimbus_videoartist($artistid) {
 	$args = array(
 		'post_type'		=> 'videos',
 		'numberposts'	=> -1,
-		'meta_key'		=> 'nimbus_artista_asociado',
+		'meta_key'		=> 'nimbusartista_asociado',
 		'meta_value'	=> $artistid
 	);
 
@@ -89,9 +90,12 @@ function nimbus_videoartist($artistid) {
 	if($videos) {
 		foreach($videos as $video) {
 			$videos_objects[] = array(
-				'video_url' 		=> get_post_meta($video->ID, 'nimbus_url_video', true),
-				'chapter-number'	=> get_post_meta($video->ID, 'nimbus_numero_de_capitulo', true),
-				'chapter-series-number'	=> get_post_meta($video->ID, 'nimbus_numero_de_la_serie', true),
+				'video_url' 			=> get_post_meta($video->ID, 'nimbusurl_video', true),
+				'video_id'				=> youtube_id_from_url(urldecode(rawurldecode(get_post_meta($video->ID, 'nimbusurl_video', true)))),
+				'chapter_number'		=> get_post_meta($video->ID, 'nimbusnumero_de_capitulo', true),
+				'chapter_series-number'	=> get_post_meta($video->ID, 'nimbusnumero_de_la_serie', true),
+				'chapter_content'		=> apply_filters('the_content', $video->post_content),
+				'chapter_title'			=> $video->post_title
 			);
 		}
 
@@ -226,3 +230,33 @@ function nimbus_artists_routes() {
     					)
     	));
 }
+
+  /*
+    * get youtube video ID from URL
+    *
+    * @param string $url
+    * @return string Youtube video id or FALSE if none found. 
+    */
+    function youtube_id_from_url($url) {
+            $pattern = 
+                '%^# Match any youtube URL
+                (?:https?://)?  # Optional scheme. Either http or https
+                (?:www\.)?      # Optional www subdomain
+                (?:             # Group host alternatives
+                  youtu\.be/    # Either youtu.be,
+                | youtube\.com  # or youtube.com
+                  (?:           # Group path alternatives
+                    /embed/     # Either /embed/
+                  | /v/         # or /v/
+                  | /watch\?v=  # or /watch\?v=
+                  )             # End path alternatives.
+                )               # End host alternatives.
+                ([\w-]{10,12})  # Allow 10-12 for 11 char youtube id.
+                $%x'
+                ;
+            $result = preg_match($pattern, $url, $matches);
+            if ($result) {
+                return $matches[1];
+            }
+            return false;
+        }
