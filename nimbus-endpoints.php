@@ -19,7 +19,10 @@ function nimbus_artists() {
 
 	$args 		= array(
 					'post_type'		=> 'artistas',
-					'numberposts'	=> -1
+					'numberposts'	=> -1,
+					'orderby'		=> 'meta_value',
+					'meta_key'		=> 'nimbusapellido_paterno',
+					'order'			=> 'ASC'
 					);
 	$artists 	= get_posts($args);
 
@@ -34,6 +37,44 @@ function nimbus_artists() {
 		return 'False';
 	}
 
+}
+
+function nimbus_videos() {
+	$args 		= array(
+					'post_type'		=> 'videos',
+					'numberposts'	=> -1,
+					'orderby'		=> 'meta_value_num',
+					'meta_key'		=> 'nimbusnumero_de_capitulo',
+					'order'			=> 'ASC'
+					);
+	$videos 	= get_posts($args);
+
+	if($videos) {
+		foreach($videos as $video) {
+
+			$videos_objects[] = nimbus_populatevideo($video->ID, $video->post_name);
+		}
+
+		return $videos_objects;
+	} else {
+		return 'False';
+	}
+}
+
+function nimbus_populatevideo($videoid, $slug) {
+	$videopost = get_post($videoid);
+	$videoobj = array(
+					'name' 		=> $videopost->post_title,
+					'id' 		=> $videoid,
+					'slug'		=> $slug,
+					'video_url' 			=> get_post_meta($videopost->ID, 'nimbusurl_video', true),
+					'video_id'				=> youtube_id_from_url(urldecode(rawurldecode(get_post_meta($videopost->ID, 'nimbusurl_video', true)))),
+					'chapter_number'		=> get_post_meta($videopost->ID, 'nimbusnumero_de_capitulo', true),
+					'chapter_series_number'	=> get_post_meta($videopost->ID, 'nimbusnumero_de_la_serie', true),
+					'chapter_content'		=> apply_filters('the_content', $videopost->post_content),
+				);
+
+	return $videoobj;
 }
 
 function nimbus_populateartist($artistid, $slug) {
@@ -125,6 +166,28 @@ function nimbus_get_artist_single( $request ) {
 	}
 }
 
+function nimbus_get_video_single( $request ) {
+	$slug = $request['slug'];
+
+	if($slug) {
+			$args = array(
+			'post_type' 	=> 'videos',
+			'name' 			=> $slug,
+			'numberposts'	=> 1
+		);
+
+		$video = get_posts($args);
+
+		if($video) {
+			return nimbus_populatevideo($video[0]->ID, $video[0]->post_name);
+		} else {
+			return false;
+		}
+	} else {
+		return false;
+	}
+}
+
 function nimbus_get_artist_tax( $request ) {
 	$discipline 	= $request['disciplina'];
 	$territory		= $request['territorio'];
@@ -189,9 +252,28 @@ function nimbus_artists_routes() {
             )
         );
 
+    register_rest_route('nimbus/v1/', '/videos/', array(
+            'methods' => 'GET',
+            'callback' => 'nimbus_videos'
+            )
+        );
+
+
     register_rest_route('nimbus/v1/', '/artistsingle/', array(
             'methods' 	=> 'GET',
             'callback' 	=> 'nimbus_get_artist_single',
+            'args'		=> array(
+            	'slug' => array(
+            			'validate_callback' => function($param, $request, $key) {
+            				return sanitize_text_field( $param );
+            			}
+            		)
+            )
+        ));
+
+        register_rest_route('nimbus/v1/', '/videosingle/', array(
+            'methods' 	=> 'GET',
+            'callback' 	=> 'nimbus_get_video_single',
             'args'		=> array(
             	'slug' => array(
             			'validate_callback' => function($param, $request, $key) {
