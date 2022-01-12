@@ -1,6 +1,6 @@
 <?php 
 
-function nimbus_artists() {
+function nimbus_artists($randomize = false) {
 	//endpoints here
 	/* 
 		artist object:
@@ -17,10 +17,12 @@ function nimbus_artists() {
 			obras	
 	*/
 
+	$order = $randomize ? 'rand' : 'meta_value';
+
 	$args 		= array(
 					'post_type'		=> 'artistas',
 					'numberposts'	=> -1,
-					'orderby'		=> 'meta_value',
+					'orderby'		=> $order,
 					'meta_key'		=> 'nimbusapellido_paterno',
 					'order'			=> 'ASC'
 					);
@@ -37,6 +39,18 @@ function nimbus_artists() {
 		return 'False';
 	}
 
+}
+
+function nimbus_artistslider() {
+	$artists = nimbus_artists(true);
+	$works = [];
+	if($artists) {
+		foreach($artists as $artist) {
+			$works[] = $artist['works'][0];
+		}	
+	}
+
+	return $works;
 }
 
 function nimbus_videos() {
@@ -105,9 +119,12 @@ function nimbus_populateartist($artistid, $slug) {
 function nimbus_artistworks($artistid) {
 	$works = rwmb_meta('nimbusobra', array('medium'), $artistid);
 	$arrworks = [];
+	$artist = get_post($artistid);
 	foreach($works as $work) {
 		//extrametadata
 		$workobj = (object) [
+			'artist' 	=> $artist->post_title,
+			'slug'		=> $artist->post_name,
 			'year' => get_post_meta($work["ID"], 'year_obra', true),
 			'technique' => get_post_meta($work["ID"], 'tecnica_obra', true),
 			'measures' => get_post_meta($work["ID"], 'medidas', true),
