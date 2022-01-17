@@ -98,6 +98,33 @@ function nimbus_videos_register_meta_boxes( $meta_boxes ) {
     $prefix = 'nimbus';
 
     $meta_boxes[] = [
+        'title'         => esc_html__('URL Video', 'nimbus'),
+        'name'          => 'datos_video_intro',
+        'post_types'    => ['page'],
+        'context'       => 'normal',
+
+        'fields'        => [
+                [
+                    'type'      => 'oembed',
+                    'name'      => esc_html__('URL Video', 'nimbus'),
+                    'id'        => $prefix . 'url_video',
+                    'desc'      => esc_html__('Url video Youtube', 'nimbus')
+                ],
+                
+                [
+                    'type'       => 'text',
+                    'name'       => esc_html__( 'Duración', 'nimbus' ),
+                    'id'         => $prefix . 'duracion',
+                ],
+                [
+                    'type'       => 'text',
+                    'name'       => esc_html__( 'Subtítulos', 'nimbus' ),
+                    'id'         => $prefix . 'subtitulos',
+                ],
+        ]
+    ];
+
+    $meta_boxes[] = [
         'title'      => esc_html__( 'Datos video', 'nimbus' ),
         'id'         => 'datos_video',
         'post_types' => ['videos'],
@@ -118,6 +145,21 @@ function nimbus_videos_register_meta_boxes( $meta_boxes ) {
                 'type' => 'number',
                 'name' => esc_html__( 'Número de la serie / temporada', 'nimbus' ),
                 'id'   => $prefix . 'numero_de_la_serie',
+            ],
+            [
+                'type'       => 'text',
+                'name'       => esc_html__( 'Duración', 'nimbus' ),
+                'id'         => $prefix . 'duracion',
+            ],
+            [
+                'type'       => 'text',
+                'name'       => esc_html__( 'Subtítulos', 'nimbus' ),
+                'id'         => $prefix . 'subtitulos',
+            ],
+            [
+                'type'       => 'text',
+                'name'       => esc_html__( 'Audio', 'nimbus' ),
+                'id'         => $prefix . 'audio',
             ],
             [
                 'type'       => 'post',
