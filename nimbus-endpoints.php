@@ -87,7 +87,8 @@ function nimbus_populatevideo($videoid, $slug) {
 					'chapter_series_number'	=> get_post_meta($videopost->ID, 'nimbusnumero_de_la_serie', true),
 					'chapter_content'		=> apply_filters('the_content', $videopost->post_content),
 					'duracion'				=> get_post_meta($videopost->ID, 'nimbusduracion', true),
-					'subtitulos'			=> get_post_meta($videopost->ID, 'nimbussubtitulos', true)
+					'subtitulos'			=> get_post_meta($videopost->ID, 'nimbussubtitulos', true),
+					'audio'					=> get_post_meta($videopost->ID, 'nimbusaudio', true)
 				);
 
 	return $videoobj;
@@ -155,7 +156,8 @@ function nimbus_videoartist($artistid) {
 				'chapter_number'		=> get_post_meta($video->ID, 'nimbusnumero_de_capitulo', true),
 				'chapter_series-number'	=> get_post_meta($video->ID, 'nimbusnumero_de_la_serie', true),
 				'chapter_content'		=> apply_filters('the_content', $video->post_content),
-				'chapter_title'			=> $video->post_title
+				'chapter_title'			=> $video->post_title,
+				'slug'					=> $video->post_name
 			);
 		}
 
