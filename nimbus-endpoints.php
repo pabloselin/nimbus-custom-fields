@@ -78,9 +78,10 @@ function nimbus_videos() {
 function nimbus_populatevideo($videoid, $slug) {
 	$videopost = get_post($videoid);
 	$videoobj = array(
-					'name' 		=> $videopost->post_title,
-					'id' 		=> $videoid,
-					'slug'		=> $slug,
+					'name' 					=> $videopost->post_title,
+					'id' 					=> $videoid,
+					'slug'					=> $slug,
+					'video_thumb'			=> get_the_post_thumbnail_url( $videopost->ID, 'large' ),
 					'video_url' 			=> get_post_meta($videopost->ID, 'nimbusurl_video', true),
 					'video_id'				=> youtube_id_from_url(urldecode(rawurldecode(get_post_meta($videopost->ID, 'nimbusurl_video', true)))),
 					'chapter_number'		=> get_post_meta($videopost->ID, 'nimbusnumero_de_capitulo', true),
