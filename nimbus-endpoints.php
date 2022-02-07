@@ -154,6 +154,7 @@ function nimbus_videoartist($artistid) {
 			$videos_objects[] = array(
 				'video_url' 			=> get_post_meta($video->ID, 'nimbusurl_video', true),
 				'video_id'				=> youtube_id_from_url(urldecode(rawurldecode(get_post_meta($video->ID, 'nimbusurl_video', true)))),
+				'video_thumb'			=> get_the_post_thumbnail_url($video->ID, 'large'),
 				'chapter_number'		=> get_post_meta($video->ID, 'nimbusnumero_de_capitulo', true),
 				'chapter_series-number'	=> get_post_meta($video->ID, 'nimbusnumero_de_la_serie', true),
 				'chapter_content'		=> apply_filters('the_content', $video->post_content),
